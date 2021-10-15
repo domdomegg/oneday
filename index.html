@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>oneday</title>
+    <style>
+        html, body, div {
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            background-color: #222;
+        }
+
+        #top_row, #current_row {
+            background-color: #eee;
+        }
+    </style>
+</head>
+<body>
+    <div id="top_row"></div>
+    <div id="current_row"></div>
+    <script>
+        const GRID_HEIGHT = Math.floor(window.innerHeight / 2);
+        const GRID_WIDTH = Math.floor(window.innerWidth / 2);
+
+        const topRow = document.getElementById('top_row');
+        const currentRow = document.getElementById('current_row');
+        currentRow.style.height = (100 / GRID_HEIGHT) + 'vh';
+
+        const update = () => {
+            const now = new Date();
+            const secondsSinceMidnight = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds() + now.getMilliseconds() * 0.001;
+
+            const cells = Math.floor(GRID_HEIGHT * GRID_WIDTH * Math.min(1, (secondsSinceMidnight / 86400)));
+
+            topRow.style.height = (100 * (cells - (cells % GRID_WIDTH)) / (GRID_HEIGHT * GRID_WIDTH)) + 'vh';
+            currentRow.style.width = ((cells % GRID_WIDTH) * 100 / GRID_WIDTH) + 'vw';
+        }
+        setInterval(update, 86400000 / (GRID_HEIGHT * GRID_WIDTH));
+        update();
+    </script>
+</body>
+</html>
